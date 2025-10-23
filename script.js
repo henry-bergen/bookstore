@@ -8,7 +8,18 @@ let books = [
     price: 19.99,
     publishedYear: 2018,
     genre: "Fantasy",
-    comments: [],
+    comments: [
+      {
+        name: "Leser123",
+        comment:
+          "Ein faszinierendes Abenteuerbuch, das mich von der ersten Seite an gefesselt hat.",
+      },
+      {
+        name: "Bookworm84",
+        comment:
+          "Eine romantische Geschichte, die mein Herz berührt und mich zum Nachdenken gebracht hat.",
+      },
+    ],
   },
   {
     name: "Der vergessene Pfad",
@@ -28,9 +39,34 @@ let books = [
     price: 22.95,
     publishedYear: 2019,
     genre: "Romantik",
-    comments: [],
+    comments: [
+      {
+        name: "LeserPeter",
+        comment:
+          "Die Handlung war fesselnd und die Charaktere unglaublich lebendig dargestellt.",
+      },
+    ],
   },
 ];
+
+// --- Hilfsfunktionen ---
+function getCommentsHtml(comments) {
+  let commentsHtml = "";
+  for (let i = 0; i < comments.length; i++) {
+    commentsHtml +=
+      "<p><strong>[" +
+      comments[i].name +
+      "]</strong>: " +
+      comments[i].comment +
+      "</p>";
+  }
+  return commentsHtml;
+}
+
+function getLikedClass(liked) {
+  if (liked) return "liked";
+  return "";
+}
 
 // --- Template-Funktion ---
 function getBookCardHtml(book, index) {
@@ -43,7 +79,11 @@ function getBookCardHtml(book, index) {
 
       <div class="price-like">
         <span>${book.price.toFixed(2)} €</span>
-        <span>${book.likes} ❤</span>
+        <span>
+          ${book.likes} <span class="like-btn ${getLikedClass(
+    book.liked
+  )}" onclick="toggleLike(${index})">❤</span>
+        </span>
       </div>
 
       <div class="book-info">
@@ -52,12 +92,16 @@ function getBookCardHtml(book, index) {
         <p><strong>Genre:</strong> ${book.genre}</p>
       </div>
 
-      <!-- Kommentare und Input fehlen noch -->
+      <div class="comments" id="comments-${index}">
+        ${getCommentsHtml(book.comments)}
+      </div>
+      <input id="input-${index}" class="comment-input" type="text" placeholder="Schreibe dein Kommentar..." />
+      <button class="comment-btn" onclick="addComment(${index})">Senden</button>
     </div>
   `;
 }
 
-// --- Hauptfunktion ---
+// --- Hauptfunktionen ---
 function renderBooks() {
   const container = document.getElementById("bookContainer");
   container.innerHTML = "";
@@ -66,9 +110,25 @@ function renderBooks() {
   }
 }
 
-// --- Noch zu implementieren ---
-// function toggleLike(index) { ... }
-// function addComment(index) { ... }
+function toggleLike(index) {
+  if (books[index].liked) {
+    books[index].liked = false;
+    books[index].likes -= 1;
+  } else {
+    books[index].liked = true;
+    books[index].likes += 1;
+  }
+  renderBooks();
+}
+
+function addComment(index) {
+  const input = document.getElementById("input-" + index);
+  const text = input.value.trim();
+  if (text === "") return;
+  books[index].comments.push({ name: "Leser", comment: text });
+  input.value = "";
+  renderBooks();
+}
 
 // --- Initial render ---
 renderBooks();
