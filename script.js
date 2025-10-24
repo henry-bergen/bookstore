@@ -19,6 +19,21 @@ let books = [
         comment:
           "Eine romantische Geschichte, die mein Herz berührt und mich zum Nachdenken gebracht hat.",
       },
+      {
+        name: "FantasyFanatic",
+        comment:
+          "Eine spannende Fantasiewelt, die ich nur schwer aus der Hand legen konnte.",
+      },
+      {
+        name: "SciFiGuru",
+        comment:
+          "Ein cleverer Science-Fiction-Roman mit interessanten Zeitreise-Konzepten und Charakteren.",
+      },
+      {
+        name: "NovelLover",
+        comment:
+          "Ein Buch, das voller magischer Überraschungen steckt und mich begeistert hat.",
+      },
     ],
   },
   {
@@ -45,22 +60,142 @@ let books = [
         comment:
           "Die Handlung war fesselnd und die Charaktere unglaublich lebendig dargestellt.",
       },
+      {
+        name: "BookLover21",
+        comment:
+          "Ein romantisches Meisterwerk, das mich tief berührt und bewegt hat.",
+      },
+      {
+        name: "FantasyNerd",
+        comment:
+          "Fantastische Welten und epische Abenteuer - genau mein Geschmack!",
+      },
+      {
+        name: "SciFiEnthusiast",
+        comment:
+          "Die Zeitreise-Elemente waren genial und haben die Story spannend gemacht.",
+      },
+      {
+        name: "ReadingAddict",
+        comment:
+          "Ein unvergessliches Buch, das mich auf eine magische Reise mitgenommen hat.",
+      },
+    ],
+  },
+  {
+    name: "Das Rätsel der Zeit",
+    author: "Alexander Weiss",
+    likes: 750,
+    liked: false,
+    price: 18.0,
+    publishedYear: 2020,
+    genre: "Science-Fiction",
+    comments: [
+      {
+        name: "BuchKenner",
+        comment:
+          "Ein spannendes Abenteuer, das mich von Anfang an mitgerissen hat.",
+      },
+      {
+        name: "LeseWurm",
+        comment:
+          "Die Liebesgeschichte war herzergreifend und wunderschön geschrieben.",
+      },
+    ],
+  },
+  {
+    name: "Der letzte Wächter",
+    author: "Sabine Grün",
+    likes: 1300,
+    liked: true,
+    price: 16.75,
+    publishedYear: 2017,
+    genre: "Fantasy",
+    comments: [],
+  },
+  {
+    name: "Im Schatten des Mondes",
+    author: "Philipp Silber",
+    likes: 890,
+    liked: false,
+    price: 12.3,
+    publishedYear: 2022,
+    genre: "Science-Fiction",
+    comments: [
+      {
+        name: "BücherLiebhaber",
+        comment:
+          "Eine magische Reise durch eine faszinierende Fantasiewelt, absolut fesselnd.",
+      },
+      {
+        name: "Leseratte",
+        comment:
+          "Ein packender Science-Fiction-Roman, der mich zum Nachdenken gebracht hat.",
+      },
+    ],
+  },
+  {
+    name: "Jenseits der Sterne",
+    author: "Oliver Schwarz",
+    likes: 1450,
+    liked: true,
+    price: 21.0,
+    publishedYear: 2015,
+    genre: "Science-Fiction",
+    comments: [
+      {
+        name: "Leser123",
+        comment:
+          "Ein fesselndes Abenteuer, das mich von Anfang bis Ende mitgerissen hat.",
+      },
+    ],
+  },
+  {
+    name: "Das verborgene Königreich",
+    author: "Elena Gold",
+    likes: 920,
+    liked: false,
+    price: 17.5,
+    publishedYear: 2020,
+    genre: "Fantasy",
+    comments: [
+      {
+        name: "Bookworm92",
+        comment:
+          "Ein faszinierendes Buch, das mich von der ersten Seite an gefesselt hat.",
+      },
+    ],
+  },
+  {
+    name: "Liebe in Zeiten des Krieges",
+    author: "Emilia Rot",
+    likes: 1800,
+    liked: true,
+    price: 19.99,
+    publishedYear: 2016,
+    genre: "Romantik",
+    comments: [
+      {
+        name: "Bibliophile23",
+        comment:
+          "Die Fantasiewelt war so lebendig, ich konnte das Buch kaum aus der Hand legen.",
+      },
+      {
+        name: "StorySeeker",
+        comment:
+          "Eine unglaublich berührende Liebesgeschichte, die mich tief bewegt hat.",
+      },
+      {
+        name: "SciFiExplorer",
+        comment:
+          "Spannende Zukunftsvisionen und interessante Charaktere machten diesen Roman einzigartig.",
+      },
     ],
   },
 ];
 
-// --- Hilfsfunktionen ---
-function getCommentsHtml(comments) {
-  let commentsHtml = "";
-  for (let i = 0; i < comments.length; i++) {
-    commentsHtml +=
-      "<p><strong>[" +
-      comments[i].name +
-      "]</strong>: " +
-      comments[i].comment +
-      "</p>";
-  }
-  return commentsHtml;
+function init() {
+  renderBooks();
 }
 
 function getLikedClass(liked) {
@@ -68,40 +203,6 @@ function getLikedClass(liked) {
   return "";
 }
 
-// --- Template-Funktion ---
-function getBookCardHtml(book, index) {
-  return `
-    <div class="book-card">
-      <div class="book-header">
-        <h2>${book.name}</h2>
-        <div class="book-img"></div>
-      </div>
-
-      <div class="price-like">
-        <span>${book.price.toFixed(2)} €</span>
-        <span>
-          ${book.likes} <span class="like-btn ${getLikedClass(
-    book.liked
-  )}" onclick="toggleLike(${index})">❤</span>
-        </span>
-      </div>
-
-      <div class="book-info">
-        <p><strong>Author:</strong> ${book.author}</p>
-        <p><strong>Erscheinungsjahr:</strong> ${book.publishedYear}</p>
-        <p><strong>Genre:</strong> ${book.genre}</p>
-      </div>
-
-      <div class="comments" id="comments-${index}">
-        ${getCommentsHtml(book.comments)}
-      </div>
-      <input id="input-${index}" class="comment-input" type="text" placeholder="Schreibe dein Kommentar..." />
-      <button class="comment-btn" onclick="addComment(${index})">Senden</button>
-    </div>
-  `;
-}
-
-// --- Hauptfunktionen ---
 function renderBooks() {
   const container = document.getElementById("bookContainer");
   container.innerHTML = "";
@@ -111,24 +212,31 @@ function renderBooks() {
 }
 
 function toggleLike(index) {
-  if (books[index].liked) {
-    books[index].liked = false;
-    books[index].likes -= 1;
+  const book = books[index];
+  const likeBtn = document.getElementById("like-btn-" + index);
+  const likeCount = document.getElementById("like-count-" + index);
+
+  if (book.liked) {
+    book.liked = false;
+    book.likes -= 1;
+    likeBtn.classList.remove("liked");
   } else {
-    books[index].liked = true;
-    books[index].likes += 1;
+    book.liked = true;
+    book.likes += 1;
+    likeBtn.classList.add("liked");
   }
-  renderBooks();
+
+  likeCount.textContent = book.likes;
 }
 
 function addComment(index) {
   const input = document.getElementById("input-" + index);
   const text = input.value.trim();
   if (text === "") return;
+
   books[index].comments.push({ name: "Leser", comment: text });
   input.value = "";
-  renderBooks();
-}
 
-// --- Initial render ---
-renderBooks();
+  const commentsContainer = document.getElementById("comments-" + index);
+  commentsContainer.innerHTML = getCommentsHtml(books[index].comments);
+}
